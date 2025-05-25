@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <%- include('partials/head') %>
+</head>
+
+<body>
+    <%- include('partials/navigation') %>
+
+        <header>
+            <h1> Login </h1>
+        </header>
+
+        <main class="vh-100 container pt-2 text-center d-flex justify-content-center align-items-center">
+            <section>
+                <form action="gestion">
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label">Usuario</label>
+                        <input type="usuario" class="form-control" id="usuario" name="usuario" placeholder="Usuario">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </section>
+        </main>
+
+        <%- include('partials/footer') %>
+
+            <script>
+                const form = document.querySelector('form');
+                const usuario = document.querySelector('#usuario');
+                const password = document.querySelector('#password');
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    if (usuario.value === 'admin' && password.value === 'admin') {
+                        window.location.href = 'gestion';
+
+                    } else {
+                        alert('Usuario o contraseña incorrectos');
+
+                    }
+
+                })
+            </script>
+</body>
+
+</html>

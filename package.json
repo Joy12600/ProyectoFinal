@@ -1,0 +1,28 @@
+{
+  "name": "fp---db",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.16.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joy12600/ProyectoFinal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joy12600/ProyectoFinal/issues"
+  },
+  "homepage": "https://github.com/Joy12600/ProyectoFinal#readme",
+  "description": ""
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+        <%= title %>
+    </title>
+    <%- include('partials/head') %>
+        <style>
+            table {
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            th,
+            td {
+                border: 1px solid #999;
+                padding: 8px;
+            }
+
+            .seccion {
+                display: none;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('partials/navigation') %>
+
+        <main>
+            <section>
+                <h1>Gestión</h1>
+                <label for="selector">Selecciona una opción:</label>
+                <select id="selector">
+                    <option value="0">Seleccione</option>
+                    <option value="habitaciones">Habitaciones</option>
+                    <option value="huespedes">Huéspedes</option>
+                    <option value="pago">Pago</option>
+                    <option value="reserva">Reserva</option>
+                </select>
+
+                <div id="habitaciones" class="seccion">
+                    <h2>Habitaciones</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo</th>
+                                <th>Valor por Día</th>
+                                <th>Capacidad</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% habitaciones.forEach(h=> { %>
+                                <tr>
+                                    <td>
+                                        <%= h.ID_Habitacion %>
+                                    </td>
+                                    <td>
+                                        <%= h.TipoHabitacion %>
+                                    </td>
+                                    <td>
+                                        <%= h.ValorPorDia %>
+                                    </td>
+                                    <td>
+                                        <%= h.CapacidadOcup %>
+                                    </td>
+                                    <td>
+                                        <%= h.Estado %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="huespedes" class="seccion">
+                    <h2>Huéspedes</h2>
+                    <p>Contenido de huéspedes aquí...</p>
+                </div>
+
+                <div id="pago" class="seccion">
+                    <h2>Pago</h2>
+                    <p>Contenido de pagos aquí...</p>
+                </div>
+
+                <div id="reserva" class="seccion">
+                    <h2>Reserva</h2>
+                    <p>Contenido de reservas aquí...</p>
+                </div>
+            </section>
+        </main>
+
+        <%- include('partials/footer') %>
+
+            <script>
+                const select = document.getElementById('selector');
+                const sections = document.querySelectorAll('.seccion');
+
+                // Mostrar la sección habitaciones y ajustar el select al cargar la página
+                window.addEventListener('DOMContentLoaded', () => {
+                    sections.forEach(sec => sec.style.display = 'none');
+                    document.getElementById('habitaciones').style.display = 'block';
+                    select.value = 'habitaciones';
+                });
+
+                select.addEventListener('change', (e) => {
+                    sections.forEach(sec => sec.style.display = 'none');
+                    const value = e.target.value;
+                    const selectedSection = document.getElementById(value);
+                    if (selectedSection) selectedSection.style.display = 'block';
+                });
+            </script>
+</body>
+
+</html>
