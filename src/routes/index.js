@@ -9,14 +9,26 @@ router.get("/", (req, res) => {
 
 router.get("/gestion", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM "Habitaciones"');
+    // Ejecuta todas las consultas en paralelo
+    const [habitacionesRes, huespedesRes, pagosRes, reservasRes] = await Promise.all([
+      pool.query('SELECT * FROM "Habitaciones"'),
+      pool.query('SELECT * FROM "Huespedes"'),
+      pool.query('SELECT * FROM "Pago"'),
+      pool.query('SELECT * FROM "Reserva"'),
+    ]);
+
+    // Envía los resultados a la vista
     res.render("gestion", {
-      title: "Gestión de Habitaciones",
-      habitaciones: result.rows
+      title: "Gestión General",
+      habitaciones: habitacionesRes.rows,
+      huespedes: huespedesRes.rows,
+      pagos: pagosRes.rows,
+      reservas: reservasRes.rows,
     });
+
   } catch (error) {
-    console.error("Error al obtener habitaciones:", error);
-    res.status(500).send("Error al obtener habitaciones");
+    console.error("Error al obtener datos de gestión:", error);
+    res.status(500).send("Error al obtener datos");
   }
 });
 

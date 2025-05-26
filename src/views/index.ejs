@@ -26,8 +26,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
@@ -35,25 +34,6 @@
         </main>
 
         <%- include('partials/footer') %>
-
-            <script>
-                const form = document.querySelector('form');
-                const usuario = document.querySelector('#usuario');
-                const password = document.querySelector('#password');
-
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-
-                    if (usuario.value === 'admin' && password.value === 'admin') {
-                        window.location.href = 'gestion';
-
-                    } else {
-                        alert('Usuario o contraseña incorrectos');
-
-                    }
-
-                })
-            </script>
 </body>
 
 </html>

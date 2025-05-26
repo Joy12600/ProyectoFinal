@@ -1,119 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>
-        <%= title %>
-    </title>
+    <title><%= title || 'Gestión' %></title>
     <%- include('partials/head') %>
-        <style>
-            table {
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-
-            th,
-            td {
-                border: 1px solid #999;
-                padding: 8px;
-            }
-
-            .seccion {
-                display: none;
-            }
-        </style>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: center;
+        }
+        .seccion {
+            display: none;
+        }
+    </style>
 </head>
-
 <body>
     <%- include('partials/navigation') %>
 
-        <main>
-            <section>
-                <h1>Gestión</h1>
-                <label for="selector">Selecciona una opción:</label>
-                <select id="selector">
-                    <option value="0">Seleccione</option>
-                    <option value="habitaciones">Habitaciones</option>
-                    <option value="huespedes">Huéspedes</option>
-                    <option value="pago">Pago</option>
-                    <option value="reserva">Reserva</option>
-                </select>
+    <main>
+        <section>
+            <h1>Gestión</h1>
+            <label for="selector">Selecciona una opción:</label>
+            <select id="selector">
+                <option value="0">Seleccione</option>
+                <option value="habitaciones">Habitaciones</option>
+                <option value="huespedes">Huéspedes</option>
+                <option value="pago">Pago</option>
+                <option value="reserva">Reserva</option>
+            </select>
 
-                <div id="habitaciones" class="seccion">
-                    <h2>Habitaciones</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tipo</th>
-                                <th>Valor por Día</th>
-                                <th>Capacidad</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% habitaciones.forEach(h=> { %>
+            <!-- Habitaciones -->
+            <div id="habitaciones" class="seccion">
+                <h2>Habitaciones</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tipo</th>
+                            <th>Valor por Día</th>
+                            <th>Capacidad</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (habitaciones && habitaciones.length) { %>
+                            <% habitaciones.forEach(h => { %>
                                 <tr>
+                                    <td><%= h.ID_Habitacion %></td>
+                                    <td><%= h.TipoHabitacion %></td>
+                                    <td><%= h.ValorPorDia %></td>
+                                    <td><%= h.CapacidadOcup %></td>
+                                    <td><%= h.Estado %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td colspan="5">No hay datos de habitaciones</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Huéspedes -->
+            <div id="huespedes" class="seccion">
+                <h2>Huéspedes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (huespedes && huespedes.length) { %>
+                            <% huespedes.forEach(h => { %>
+                                <tr>
+                                    <td><%= h.ID_Huesped %></td>
+                                    <td><%= h.Nombre %></td>
+                                    <td><%= h.Apellido %></td>
+                                    <td><%= h.Telefono %></td>
+                                    <td><%= h.Correo %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td colspan="5">No hay datos de huéspedes</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagos -->
+            <div id="pago" class="seccion">
+                <h2>Pagos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID Reserva</th>
+                            <th>Fecha</th>
+                            <th>Monto</th>
+                            <th>Método</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (pagos && pagos.length) { %>
+                            <% pagos.forEach(p => { %>
+                                <tr>
+                                    <td><%= p.ID_Pago %></td>
+                                    <td><%= p.ID_Reserva %></td>
                                     <td>
-                                        <%= h.ID_Habitacion %>
+                                        <% 
+                                            let fecha = '';
+                                            if (p.FechaPago) {
+                                                const d = new Date(p.FechaPago);
+                                                fecha = !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : p.FechaPago;
+                                            }
+                                        %>
+                                        <%= fecha %>
+                                    </td>
+                                    <td><%= p.Monto %></td>
+                                    <td><%= p.MetodoPago %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td colspan="5">No hay datos de pagos</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Reservas -->
+            <div id="reserva" class="seccion">
+                <h2>Reservas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID Huesped</th>
+                            <th>ID Habitación</th>
+                            <th>Fecha Ingreso</th>
+                            <th>Fecha Salida</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (reservas && reservas.length) { %>
+                            <% reservas.forEach(r => { %>
+                                <tr>
+                                    <td><%= r.ID_Reserva %></td>
+                                    <td><%= r.ID_Huesped %></td>
+                                    <td><%= r.ID_Habitacion %></td>
+                                    <td>
+                                        <% 
+                                            let ingreso = '';
+                                            if (r.FechaIngreso) {
+                                                const d = new Date(r.FechaIngreso);
+                                                ingreso = !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : r.FechaIngreso;
+                                            }
+                                        %>
+                                        <%= ingreso %>
                                     </td>
                                     <td>
-                                        <%= h.TipoHabitacion %>
-                                    </td>
-                                    <td>
-                                        <%= h.ValorPorDia %>
-                                    </td>
-                                    <td>
-                                        <%= h.CapacidadOcup %>
-                                    </td>
-                                    <td>
-                                        <%= h.Estado %>
+                                        <% 
+                                            let salida = '';
+                                            if (r.FechaSalida) {
+                                                const d = new Date(r.FechaSalida);
+                                                salida = !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : r.FechaSalida;
+                                            }
+                                        %>
+                                        <%= salida %>
                                     </td>
                                 </tr>
-                                <% }) %>
-                        </tbody>
-                    </table>
-                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td colspan="5">No hay datos de reservas</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 
-                <div id="huespedes" class="seccion">
-                    <h2>Huéspedes</h2>
-                    <p>Contenido de huéspedes aquí...</p>
-                </div>
+    <%- include('partials/footer') %>
 
-                <div id="pago" class="seccion">
-                    <h2>Pago</h2>
-                    <p>Contenido de pagos aquí...</p>
-                </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('selector');
+            const sections = document.querySelectorAll('.seccion');
 
-                <div id="reserva" class="seccion">
-                    <h2>Reserva</h2>
-                    <p>Contenido de reservas aquí...</p>
-                </div>
-            </section>
-        </main>
+            function hideAllSections() {
+                sections.forEach(sec => sec.style.display = 'none');
+            }
 
-        <%- include('partials/footer') %>
+            // Mostrar "habitaciones" por defecto
+            hideAllSections();
+            document.getElementById('habitaciones').style.display = 'block';
+            select.value = 'habitaciones';
 
-            <script>
-                const select = document.getElementById('selector');
-                const sections = document.querySelectorAll('.seccion');
-
-                // Mostrar la sección habitaciones y ajustar el select al cargar la página
-                window.addEventListener('DOMContentLoaded', () => {
-                    sections.forEach(sec => sec.style.display = 'none');
-                    document.getElementById('habitaciones').style.display = 'block';
-                    select.value = 'habitaciones';
-                });
-
-                select.addEventListener('change', (e) => {
-                    sections.forEach(sec => sec.style.display = 'none');
-                    const value = e.target.value;
+            select.addEventListener('change', (e) => {
+                hideAllSections();
+                const value = e.target.value;
+                if (value && value !== '0') {
                     const selectedSection = document.getElementById(value);
                     if (selectedSection) selectedSection.style.display = 'block';
-                });
-            </script>
+                }
+            });
+        });
+    </script>
 </body>
-
 </html>
